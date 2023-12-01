@@ -48,18 +48,30 @@ public class Main {
                     String pisA = dataFormatter.formatCellValue(row.getCell(6));
                     String cofinsCod = dataFormatter.formatCellValue(row.getCell(11));
                     String cofinsA = dataFormatter.formatCellValue(row.getCell(7));
-                    PreparedStatement preparedStatement = connection.prepareStatement("UPDATE product " +
-                            "SET ncm = " + ncm
-                            + ", cfop = " + cfop
-                            + ", tax4_code = " + cest
-                            + ", tax1_code = " + cst
-                            + ", tax1 = " + icms
-                            + ", tax2_code = " + pisCod
-                            + ", tax2 = " + pisA
-                            + ", tax3_code = " + cofinsCod
-                            + ", tax3 = " + cofinsA
-                            + " WHERE internal_code = " + id);
-                    preparedStatement.execute();
+                    String sql = "UPDATE product " +
+                            "SET ncm = ?, " +
+                            "cfop = ?, " +
+                            "tax4_code = ?, " +
+                            "tax1_code = ?, " +
+                            "tax1 = ?, " +
+                            "tax2_code = ?, " +
+                            "tax2 = ?, " +
+                            "tax3_code = ?, " +
+                            "tax3 = ? " +
+                            "WHERE internal_code = ?";
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, ncm);
+                    preparedStatement.setString(2, cfop);
+                    preparedStatement.setString(3, cest);
+                    preparedStatement.setString(4, cst);
+                    preparedStatement.setString(5, icms);
+                    preparedStatement.setString(6, pisCod);
+                    preparedStatement.setString(7, pisA);
+                    preparedStatement.setString(8, cofinsCod);
+                    preparedStatement.setString(9, cofinsA);
+                    preparedStatement.setString(10, id);
+
+                    preparedStatement.executeUpdate();
                     System.out.println(preparedStatement);
                 }
             }
