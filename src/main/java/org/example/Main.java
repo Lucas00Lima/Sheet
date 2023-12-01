@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         //Acessar a planilha
-        String BANCO = JOptionPane.showInputDialog("Digite o banco do cliente db***");
+//        String BANCO = JOptionPane.showInputDialog("Digite o banco do cliente db***");
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(null);
         String filePath;
@@ -24,10 +24,10 @@ public class Main {
             Sheet sheet = workbook.getSheetAt(0);
             DataFormatter dataFormatter = new DataFormatter();
             //Acessar o banco
-            String url = "jdbc:mysql://localhost:3306/" + BANCO;
+            String url = "jdbc:mysql://localhost:3306/" + "db000";
             String userName = "root";
 
-            String password = JOptionPane.showInputDialog("Insira a da Soma");
+            String password = "@soma+";//JOptionPane.showInputDialog("Insira a da Soma");
             Connection connection = DriverManager.getConnection(url, userName, password);
 
             //UPDATE no banco com os dados da planilha
@@ -38,16 +38,29 @@ public class Main {
                 if (isRowEmpty(row)) {
                     break;
                 } else {
-                    String id = dataFormatter.formatCellValue(row.getCell(2));
-                    String ncm = dataFormatter.formatCellValue(row.getCell(3));
-                    String cfop = dataFormatter.formatCellValue(row.getCell(4));
-                    String cest = dataFormatter.formatCellValue(row.getCell(12));
-                    String cst = dataFormatter.formatCellValue(row.getCell(9));
-                    String icms = dataFormatter.formatCellValue(row.getCell(5));
-                    String pisCod = dataFormatter.formatCellValue(row.getCell(10));
-                    String pisA = dataFormatter.formatCellValue(row.getCell(6));
-                    String cofinsCod = dataFormatter.formatCellValue(row.getCell(11));
-                    String cofinsA = dataFormatter.formatCellValue(row.getCell(7));
+                    String id = dataFormatter.formatCellValue(row.getCell(0));
+                    String ncm = dataFormatter.formatCellValue(row.getCell(9));
+                    String cfop = dataFormatter.formatCellValue(row.getCell(10));
+                    String cest = dataFormatter.formatCellValue(row.getCell(11));
+                    String cst = dataFormatter.formatCellValue(row.getCell(12));
+
+                    String icmsString = dataFormatter.formatCellValue(row.getCell(13));
+                    icmsString = icmsString.replace(",", "");
+                    icmsString = icmsString + "0" + "0";
+                    int icms = Integer.parseInt(icmsString);
+
+                    String pisCod = dataFormatter.formatCellValue(row.getCell(14));
+                    String pisAString = dataFormatter.formatCellValue(row.getCell(15));
+                    pisAString = pisAString.replace(",", "");
+                    pisAString = pisAString + "0";
+                    int pisA = Integer.parseInt(pisAString);
+
+                    String cofinsCod = dataFormatter.formatCellValue(row.getCell(16));
+                    String cofinsAString = dataFormatter.formatCellValue(row.getCell(17));
+                    cofinsAString = cofinsAString.replace(",", "");
+                    cofinsAString = cofinsAString + "0" + "0" + "0";
+                    int cofinsA = Integer.parseInt(cofinsAString);
+
                     String sql = "UPDATE product " +
                             "SET ncm = ?, " +
                             "cfop = ?, " +
@@ -64,11 +77,11 @@ public class Main {
                     preparedStatement.setString(2, cfop);
                     preparedStatement.setString(3, cest);
                     preparedStatement.setString(4, cst);
-                    preparedStatement.setString(5, icms);
+                    preparedStatement.setInt(5, icms);
                     preparedStatement.setString(6, pisCod);
-                    preparedStatement.setString(7, pisA);
+                    preparedStatement.setInt(7, pisA);
                     preparedStatement.setString(8, cofinsCod);
-                    preparedStatement.setString(9, cofinsA);
+                    preparedStatement.setInt(9, cofinsA);
                     preparedStatement.setString(10, id);
 
                     preparedStatement.executeUpdate();
