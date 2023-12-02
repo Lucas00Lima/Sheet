@@ -50,12 +50,14 @@ public class Main {
                     int icms = Integer.parseInt(icmsString);
 
                     String pisCod = dataFormatter.formatCellValue(row.getCell(14));
+                    pisCod = "0" + pisCod;
                     String pisAString = dataFormatter.formatCellValue(row.getCell(15));
                     pisAString = pisAString.replace(",", "");
                     pisAString = pisAString + "0";
                     int pisA = Integer.parseInt(pisAString);
 
                     String cofinsCod = dataFormatter.formatCellValue(row.getCell(16));
+                    cofinsCod = "0" + cofinsCod;
                     String cofinsAString = dataFormatter.formatCellValue(row.getCell(17));
                     cofinsAString = cofinsAString.replace(",", "");
                     cofinsAString = cofinsAString + "0" + "0" + "0";
